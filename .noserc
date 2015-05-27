@@ -1,3 +1,3 @@
 [nosetests]
-with-nosebook
+with-nosebook=1
 verbosity=1
