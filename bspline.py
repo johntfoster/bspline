@@ -63,6 +63,10 @@ class Bspline():
         """Initialize attributes"""
         self.knot_vector = np.array(knot_vector)
         self.p = order
+
+        #Dummy calls to the functions for memory storage
+        self.__call__(0.0)
+        self.d(0.0)
         
         
     def __basis0(self, xi):
