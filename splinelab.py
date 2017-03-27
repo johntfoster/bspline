@@ -72,7 +72,7 @@ Caveat:
     u = max(0, n - (k-1))  # number of elements in the output array
     out = np.empty( (u,), dtype=t.dtype )
 
-    for j in xrange(u):
+    for j in range(u):
         out[j] = sum( t[j:(j+k)] ) / k
 
     return out
@@ -120,7 +120,7 @@ Returns:
     # =>  i = len(tau) - k
     #
     u = len(tau) - k
-    for i in xrange(u):
+    for i in range(u):
         if tau[i+k-1] == tau[i]:
             raise ValueError("k-fold (or higher) repeated sites not allowed, but tau[i+k-1] == tau[i] for i = %d, k = %d" % (i,k))
 
@@ -165,7 +165,7 @@ Caveat:
 
     out   = []
     e     = None
-    for k in xrange(t.shape[0]):
+    for k in range(t.shape[0]):
         if t[k] != e:
             e     = t[k]
             count = 0
