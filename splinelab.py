@@ -83,8 +83,14 @@ def aptknt(tau, order):
 
 Minimal emulation of MATLAB's ``aptknt``.
 
-The returned knot vector can be used to generate splines of order `k` that are
-suitable for interpolation to the collocation sites `tau`.
+The returned knot vector can be used to generate splines of desired `order`
+that are suitable for interpolation to the collocation sites `tau`.
+
+Note that this is only possible when ``len(tau)`` >= `order` + 1.
+
+When this condition does not hold, a valid knot vector is returned,
+but using it to generate a spline basis will not have the desired effect
+(the spline will return a length-zero array upon evaluation).
 
 Parameters:
     tau:
@@ -94,8 +100,8 @@ Parameters:
         int, >= 0, order of spline
 
 Returns:
-    rank-1 array, `order` + 1 copies of ``tau[0]``, then ``aveknt(tau[1:-1],order)``,
-    and finally `order` + 1 copies of ``tau[-1]``.
+    rank-1 array, `k` copies of ``tau[0]``, then ``aveknt(tau[1:-1], k-1)``,
+    and finally `k` copies of ``tau[-1]``, where ``k = min(order+1, len(tau))``.
 """
     tau = np.atleast_1d(tau)
     k   = order + 1
