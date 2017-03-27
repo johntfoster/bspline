@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
+"""Python/Numpy implementation of Bspline basis functions via Cox - de Boor algorithm."""
 
 from __future__ import division
 
 from functools import partial
 import numpy as np
-import matplotlib.pyplot as plt
 
 class memoize(object):
     """
@@ -138,6 +138,8 @@ class Bspline():
            range of knots.
         """
 
+        import matplotlib.pyplot as plt
+
         x_min = np.min(self.knot_vector)
         x_max = np.max(self.knot_vector)
 
@@ -156,6 +158,8 @@ class Bspline():
            Convenience function to plot derivatives of basis functions over
            full range of knots.
         """
+
+        import matplotlib.pyplot as plt
 
         x_min = np.min(self.knot_vector)
         x_max = np.max(self.knot_vector)
