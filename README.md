@@ -36,8 +36,9 @@ This fork adds higher-order differentiation, collocation matrix generation, and 
 
     ncolloc = 7
     tau = numpy.linspace(0,1,ncolloc)  # These are the sites to which we would like to interpolate
-    k   = splinelab.aptknt(tau, p)     # Given the collocation sites, generate a knot vector (incl. endpoint repeats).
-                                       # To get meaningful results, here one must choose ncolloc such that  ncolloc >= p+1.
+    k   = splinelab.aptknt(tau, p)     # Given the collocation sites, generate a knot vector
+                                       # (incl. endpoint repeats). To get meaningful results,
+                                       # here one must choose ncolloc such that  ncolloc >= p+1.
     B   = bspline.Bspline(k, p)
 
     A0  = B.collmat(tau)
@@ -47,7 +48,8 @@ This fork adds higher-order differentiation, collocation matrix generation, and 
 
     ## Evaluate a function expressed in the spline basis:
 
-    # set up coefficients (in a real use case, fill this with something sensible, e.g. with an L2 projection onto the spline basis)
+    # set up coefficients (in a real use case, fill this with something sensible,
+    #                      e.g. with an L2 projection onto the spline basis)
     #
     nbasis = A0.shape[1]  # A0.shape = (num_collocation_sites, num_basis_functions)
     c = numpy.ones( (nbasis,), dtype=numpy.float64 )
@@ -58,6 +60,9 @@ This fork adds higher-order differentiation, collocation matrix generation, and 
     # evaluate at each tau[k]
     y2 = numpy.array( [numpy.sum( B(t) * c ) for t in tau], dtype=numpy.float64 )
 
-    # equivalent, using the collocation matrix (NOTE: the sites tau are built into the matrix when collmat() is called)
+    # equivalent, using the collocation matrix
+    #
+    # NOTE: the sites tau are built into the matrix when collmat() is called.
+    #
     y3 = numpy.sum( A0 * c, axis=-1 )
 
