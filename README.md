@@ -66,3 +66,21 @@ This fork adds higher-order differentiation, collocation matrix generation, and 
     #
     y3 = numpy.sum( A0 * c, axis=-1 )
 
+
+# Installation
+
+Copy the `.py` files next to your source code,
+or leave them in this directory and call it as a module.
+
+Tested on Python 2.7 and 3.4.
+
+Tested on Linux Mint.
+
+# Dependencies
+
+* [NumPy](http://www.numpy.org)
+* [Matplotlib](http://matplotlib.org/) (for demo script)
+
+# License
+
+[MIT](LICENSE.md)
