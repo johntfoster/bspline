@@ -265,10 +265,13 @@ Parameters:
 
 Returns:
     A:
-        rank-2 array such that
+        if len(tau) > 1, rank-2 array such that
             A[i,j] = D**deriv_order B_j(tau[i])
         where
             D**k  = kth derivative (0 for function value itself)
+
+        if len(tau) == 1, rank-1 array such that
+            A[j]   = D**deriv_order B_j(tau)
 
 Example:
     If the coefficients of a spline function are given in the vector c, then::
