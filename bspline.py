@@ -276,7 +276,7 @@ Returns:
 Example:
     If the coefficients of a spline function are given in the vector c, then::
 
-        sum( A[i,:] * c[:] )
+        np.sum( A*c, axis=-1 )
 
     will give a rank-1 array of function values at the sites tau[i] that were supplied
     to `collmat`.
