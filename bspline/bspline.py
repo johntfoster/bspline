@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Python/Numpy implementation of Bspline basis functions via Cox - de Boor algorithm."""
 
-from __future__ import division
+from __future__ import division, print_function, absolute_import
 
 from functools import partial
 import numpy as np

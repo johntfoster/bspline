@@ -13,11 +13,11 @@ Created on Fri Mar 24 13:52:37 2017
 @author: Juha Jeronen, juha.jeronen@tut.fi
 """
 
-from __future__ import division
+from __future__ import division, print_function, absolute_import
 
 import numpy as np
 
-import bspline
+import bspline.bspline
 
 
 def augknt(knots, order):
