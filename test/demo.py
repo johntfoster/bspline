@@ -6,8 +6,7 @@ Created on Fri Mar 24 13:58:36 2017
 @author: Juha Jeronen, juha.jeronen@tut.fi
 """
 
-from __future__ import division
-from __future__ import print_function
+from __future__ import division, print_function, absolute_import
 
 import numpy as np
 
@@ -16,7 +15,7 @@ import matplotlib.cm
 import matplotlib.colors
 
 import bspline
-import splinelab
+import bspline.splinelab as splinelab
 
 
 def test():

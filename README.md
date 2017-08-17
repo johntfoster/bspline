@@ -2,7 +2,7 @@
 
 Python/Numpy implementation of Bspline basis functions via Cox - de Boor algorithm.
 
-This fork adds higher-order differentiation, collocation matrix generation, and a minimal procedural API (mainly for dealing with knot vectors) which may help in converting MATLAB codes.
+Also provided are higher-order differentiation, collocation matrix generation, and a minimal procedural API (mainly for dealing with knot vectors) which may help in converting MATLAB codes.
 
 # Usage
 
@@ -70,12 +70,33 @@ y3 = numpy.sum( A0 * c, axis=-1 )
 
 # Installation
 
+## From GitHub
+
+As user:
+
+```bash
+git clone https://github.com/johntfoster/bspline.git
+cd bspline
+python setup.py install --user
+```
+
+As admin, change the last command to
+
+```bash
+sudo python setup.py install
+```
+
+## Old method
+
 Copy the `.py` files next to your source code,
 or leave them in this directory and call it as a module.
 
-Tested on Python 2.7 and 3.4.
 
-Tested on Linux Mint.
+# Tested on
+
+ - Python 2.7 and 3.4.
+ - Linux Mint.
+
 
 # Dependencies
 

@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 """Python/Numpy implementation of Bspline basis functions via Cox - de Boor algorithm."""
 
-from __future__ import division
+from __future__ import division, print_function, absolute_import
 
 from functools import partial
 import numpy as np
 
 class memoize(object):
-    """
-       Cache the return value of a method
+    """Cache the return value of a method.
 
        This class is meant to be used as a decorator of methods. The return value
        from a given method invocation will be cached on the instance whose method
@@ -50,22 +49,30 @@ class memoize(object):
 
 
 class Bspline():
-    """
-       Numpy implementation of Cox - de Boor algorithm in 1D
-
-       inputs:
-           knot_vector: Python list or Numpy array containing knot vector
-                        entries
-           order: Order of interpolation, e.g. 0 -> piecewise constant between
-                  knots, 1 -> piecewise linear between knots, etc.
-       outputs:
-           basis object that is callable to evaluate basis functions at given
-           values of knot span
-    """
+    """Numpy implementation of Cox - de Boor algorithm in 1D."""
 
     def __init__(self, knot_vector, order):
-        """Initialize attributes"""
-        self.knot_vector = np.array(knot_vector)
+        """Create a Bspline object.
+
+        Parameters:
+            knot_vector: Python list or rank-1 Numpy array containing knot vector
+                         entries
+            order: Order of interpolation, e.g. 0 -> piecewise constant between
+                   knots, 1 -> piecewise linear between knots, etc.
+
+        Returns:
+            Bspline object, callable to evaluate basis functions at given
+            values of `x` inside the knot span.
+        """
+        kv = np.atleast_1d(knot_vector)
+        if kv.ndim > 1:
+            raise ValueError("knot_vector must be Python list or rank-1 array, but got rank = %d" % (kv.ndim))
+        self.knot_vector = kv
+
+        order = int(order)
+        if order < 0:
+            raise ValueError("order must be integer >= 0, but got %d" % (order))
+
         self.p = order
 
         #Dummy calls to the functions for memory storage
@@ -74,14 +81,14 @@ class Bspline():
 
 
     def __basis0(self, xi):
-        """Order zero basis"""
+        """Order zero basis (for internal use)."""
         return np.where(np.all([self.knot_vector[:-1] <=  xi,
                                 xi < self.knot_vector[1:]],axis=0), 1.0, 0.0)
 
     def __basis(self, xi, p, compute_derivatives=False):
-        """
-           Recursive Cox - de Boor function to compute basis functions and
-           optionally their derivatives
+        """Recursive Cox - de Boor function (for internal use).
+
+        Compute basis functions and optionally their first derivatives.
         """
 
         if p == 0:
@@ -115,61 +122,62 @@ class Bspline():
         return  (first_term[:-1] * basis_p_minus_1[:-1] +
                  second_term * basis_p_minus_1[1:])
 
-
     @memoize
     def __call__(self, xi):
-        """
-           Convenience function to make the object callable.  Also 'memoized'
-           for speed.
-        """
+        """Convenience function to make the object callable.  Also 'memoized' for speed."""
         return self.__basis(xi, self.p, compute_derivatives=False)
 
     @memoize
     def d(self, xi):
-        """
-           Convenience function to compute derivate of basis functions.
-           'Memoized' for speed.
-        """
+        """Convenience function to compute first derivative of basis functions. 'Memoized' for speed."""
         return self.__basis(xi, self.p, compute_derivatives=True)
 
     def plot(self):
-        """
-           Convenience function to plot basis functions over full
-           range of knots.
+        """Plot basis functions over full range of knots.
+
+        Convenience function. Requires matplotlib.
         """
 
-        import matplotlib.pyplot as plt
+        try:
+            import matplotlib.pyplot as plt
+        except ImportError:
+            from sys import stderr
+            print("ERROR: matplotlib.pyplot not found, matplotlib must be installed to use this function", file=stderr)
+            raise
 
         x_min = np.min(self.knot_vector)
         x_max = np.max(self.knot_vector)
 
         x = np.linspace(x_min, x_max, num=1000)
 
-        N = np.array([self(i) for i in x]).T;
+        N = np.array([self(i) for i in x]).T
 
         for n in N:
-
             plt.plot(x,n)
 
         return plt.show()
 
     def dplot(self):
-        """
-           Convenience function to plot derivatives of basis functions over
-           full range of knots.
+        """Plot first derivatives of basis functions over full range of knots.
+
+        Convenience function. Requires matplotlib.
         """
 
-        import matplotlib.pyplot as plt
+        try:
+            import matplotlib.pyplot as plt
+        except ImportError:
+            from sys import stderr
+            print("ERROR: matplotlib.pyplot not found, matplotlib must be installed to use this function", file=stderr)
+            raise
 
         x_min = np.min(self.knot_vector)
         x_max = np.max(self.knot_vector)
 
         x = np.linspace(x_min, x_max, num=1000)
 
-        N = np.array([self.d(i) for i in x]).T;
+        N = np.array([self.d(i) for i in x]).T
 
         for n in N:
-
             plt.plot(x,n)
 
         return plt.show()
@@ -223,6 +231,7 @@ Parameters:
 
 Returns:
     **lambda** `x`: ... that evaluates the `order`-th derivative of `B` at the point `x`.
+                    The returned function internally uses __call__, which is 'memoized' for speed.
 """
         order = int(order)
         if order < 0:
@@ -265,15 +274,18 @@ Parameters:
 
 Returns:
     A:
-        rank-2 array such that
+        if len(tau) > 1, rank-2 array such that
             A[i,j] = D**deriv_order B_j(tau[i])
         where
             D**k  = kth derivative (0 for function value itself)
 
+        if len(tau) == 1, rank-1 array such that
+            A[j]   = D**deriv_order B_j(tau)
+
 Example:
     If the coefficients of a spline function are given in the vector c, then::
 
-        sum( A[i,:] * c[:] )
+        np.sum( A*c, axis=-1 )
 
     will give a rank-1 array of function values at the sites tau[i] that were supplied
     to `collmat`.
