@@ -131,7 +131,7 @@ setup(
     name = "bspline",
     version = version,
     author = "John T. Foster and Juha Jeronen",
-#    author_email = "juha.jeronen@tut.fi",
+    author_email = "juha.jeronen@tut.fi",
     url = "https://github.com/johntfoster/bspline",
 
     description = SHORTDESC,

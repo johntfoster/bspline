@@ -70,6 +70,20 @@ y3 = numpy.sum( A0 * c, axis=-1 )
 
 # Installation
 
+## From PyPI
+
+Install as user:
+
+```bash
+pip install bspline --user
+```
+
+Install as admin:
+
+```bash
+sudo pip install bspline
+```
+
 ## From GitHub
 
 As user:
@@ -88,8 +102,8 @@ sudo python setup.py install
 
 ## Old method
 
-Copy the `.py` files next to your source code,
-or leave them in this directory and call it as a module.
+Copy `bspline.py` and `splinelab.py` files from the `bspline` subdirectory next to your source code,
+or leave them there and call it as a module.
 
 
 # Tested on
