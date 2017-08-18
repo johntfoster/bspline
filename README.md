@@ -8,8 +8,9 @@ Also provided are higher-order differentiation, collocation matrix generation, a
 
 ```python
 import numpy
+
 import bspline
-import splinelab
+import bspline.splinelab as splinelab
 
 ## Spline setup and evaluation
 
